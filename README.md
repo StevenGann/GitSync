@@ -1,11 +1,28 @@
 # GitSync
 
-A Docker service that syncs GitHub repos with local directories:
+A Docker service that syncs GitHub repos with local directories. Designed for syncing Obsidian vaults between GitHub and Nextcloud, but works for any repo/directory pair.
 
-- **GitHub → local**: Polls for new commits and pulls to the local path.
-- **Local → GitHub**: Watches for file changes, waits a debounce period, then commits and pushes.
+```mermaid
+flowchart LR
+  subgraph external [External]
+    GitHub[GitHub API]
+    LocalFS[Local directories]
+  end
+  subgraph container [GitSync Container]
+    Poll[Poll loop]
+    Watch[Watch loop]
+    Git[Git clone/pull/push]
+  end
+  GitHub -->|"GET /repos/.../commits"| Poll
+  Poll -->|pull| Git
+  Git --> LocalFS
+  LocalFS -->|"file events"| Watch
+  Watch -->|"debounced commit+push"| Git
+  Git -->|push| GitHub
+```
 
-Designed for syncing Obsidian vaults between GitHub and Nextcloud, but works for any repo/directory pair.
+- **GitHub → local**: Poll loop polls for new commits and pulls to the local path.
+- **Local → GitHub**: Watch loop detects file changes, waits a debounce period, then commits and pushes.
 
 ## Quick Start
 
