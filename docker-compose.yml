@@ -1,0 +1,14 @@
+services:
+  gitsync:
+    build: .
+    container_name: gitsync
+    restart: unless-stopped
+    environment:
+      - CONFIG_PATH=/config/config.json
+      # Optional: override token from env (recommended for secrets)
+      # - GITHUB_TOKEN=ghp_xxxx
+    volumes:
+      - ./config:/config
+      - ./data/obsidian:/data/obsidian
+    # Optional: run as specific user for Nextcloud/Obsidian file ownership
+    # user: "${PUID:-1000}:${PGID:-1000}"

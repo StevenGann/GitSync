@@ -1,0 +1,14 @@
+{
+  "github_token": "",
+  "poll_interval_seconds": 60,
+  "debounce_seconds": 30,
+  "git_user_name": "GitSync",
+  "git_user_email": "gitsync@local",
+  "pull_before_push": true,
+  "repos": [
+    {
+      "repo": "owner/repo-name",
+      "local_path": "/data/repo-name"
+    }
+  ]
+}
